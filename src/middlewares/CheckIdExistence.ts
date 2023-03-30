@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
 import CompanyModel from '../database/CompanyModel'
+import MemberModel from '../database/MemberModel'
 import TeamModel from '../database/TeamModel'
 
 async function checkIdExistence(
@@ -20,8 +21,9 @@ async function checkIdExistence(
 
   const company = await CompanyModel.findById(id)
   const team = await TeamModel.findById(id)
+  const member = await MemberModel.findById(id)
 
-  if (!company && !team) {
+  if (!company && !team && !member) {
     return res.status(404).json({ error: 'id not found' })
   }
 

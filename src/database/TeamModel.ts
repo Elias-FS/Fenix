@@ -2,8 +2,8 @@ import mongoose, { Schema } from 'mongoose'
 
 // Definir enum para funções
 const RoleEnum = Object.freeze({
-  ADMIN: 'administrador',
-  TECH: 'tecnico',
+  TECHNICAL: 'Technical',
+  ADMINISTRATOR: 'administrator',
 })
 
 // Definir enum para status
@@ -15,14 +15,15 @@ const StatusEnum = Object.freeze({
 const TeamModel = new Schema(
   {
     title: {
-      type: 'string',
+      type: String,
       default: 'Team',
     },
     type: {
       type: String,
       enum: Object.values(RoleEnum),
-      default: RoleEnum.TECH, // Valor padrão é 'tecnico'
+      default: RoleEnum.TECHNICAL, // Valor padrão é 'tecnico'
     },
+    role: String,
     status: {
       type: String,
       enum: Object.values(StatusEnum),

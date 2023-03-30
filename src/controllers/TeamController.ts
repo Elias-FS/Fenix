@@ -17,6 +17,16 @@ const TeamController = {
   },
 
   async create(req: Request, res: Response): Promise<Response> {
+    const { title } = req.body
+
+    const existingCompany = await TeamModel.findOne({ title })
+
+    if (existingCompany) {
+      return res.status(400).json({
+        error: `Já existe uma equipe com o nome ${title}`,
+      })
+    }
+
     const team = await TeamModel.create(req.body)
 
     return res.json(team)

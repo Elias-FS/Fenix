@@ -17,6 +17,23 @@ const CompanyController = {
   },
 
   async create(req: Request, res: Response): Promise<Response> {
+    const { document, typeDocument } = req.body
+
+    const existingCompany = await CompanyModel.findOne({ document })
+
+    if (typeDocument === 'CNPJ' && document.length !== 14) {
+      return res.status(400).json({
+        error:
+          'O CNPJ precisa ter exatamente 14 digitos, no seguinte formato: "12312312312312"',
+      })
+    }
+
+    if (existingCompany) {
+      return res.status(400).json({
+        error: `Já existe uma companhia com o documento ${document}`,
+      })
+    }
+
     const company = await CompanyModel.create(req.body)
 
     return res.json(company)

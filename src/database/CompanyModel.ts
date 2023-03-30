@@ -6,6 +6,11 @@ const StatusEnum = Object.freeze({
   INACTIVE: 'inactive',
 })
 
+// Definir enum para tipos de documentos
+const TypeDocumentEnum = Object.freeze({
+  CNPJ: 'CNPJ',
+})
+
 // Definir esquema para a equipe padrão
 const DefaultTeam = new Schema({
   name: String,
@@ -17,6 +22,12 @@ const CompanyModel = new Schema(
     title: String,
     document: String,
     slug: String,
+    typeDocument: {
+      type: String,
+      required: true,
+      enum: Object.values(TypeDocumentEnum),
+      default: TypeDocumentEnum.CNPJ, // Valor padrão é 'CNPJ'
+    },
     status: {
       type: String,
       enum: Object.values(StatusEnum),

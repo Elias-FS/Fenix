@@ -17,6 +17,28 @@ const MemberController = {
   },
 
   async create(req: Request, res: Response): Promise<Response> {
+    const { document, typeDocument } = req.body
+
+    const existingCompany = await MemberModel.findOne({ document })
+
+    if (typeDocument === 'CPF' && document.length !== 11) {
+      return res.status(400).json({
+        error:
+          'O CPF precisa ter exatamente 11 digitos, no seguinte formato: 12312312312',
+      })
+    } else if (typeDocument === 'CNPJ' && document.length !== 14) {
+      return res.status(400).json({
+        error:
+          'O CNPJ precisa ter exatamente 14 digitos, no seguinte formato: "12312312312312"',
+      })
+    }
+
+    if (existingCompany) {
+      return res.status(400).json({
+        error: `Já existe um membro com o documento ${document}`,
+      })
+    }
+
     const member = await MemberModel.create(req.body)
 
     return res.json(member)
