@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
-import CompanyModel from '../database/CompanyModel'
-import MemberModel from '../database/MemberModel'
-import TeamModel from '../database/TeamModel'
+import CompanyModel from '../models/CompanyModel'
+import MemberModel from '../models/MemberModel'
+import TeamModel from '../models/TeamModel'
 
 async function checkIdExistence(
   req: Request,

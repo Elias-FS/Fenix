@@ -1,5 +1,7 @@
 import { Request, Response } from 'express'
-import CompanyModel from '../database/CompanyModel'
+import CompanyModel from '../models/CompanyModel'
+import MemberModel from '../models/MemberModel'
+import TeamModel from '../models/TeamModel'
 
 const CompanyController = {
   async index(req: Request, res: Response): Promise<Response> {
@@ -36,7 +38,28 @@ const CompanyController = {
 
     const company = await CompanyModel.create(req.body)
 
-    return res.json(company)
+    const defaultTeam = await TeamModel.create({
+      organization_id: company._id,
+      title: 'default team',
+      type: 'Technical',
+      role: 'default',
+      status: 'ativo',
+    })
+
+    const defaultMember = await MemberModel.create({
+      team_id: defaultTeam._id,
+      name: 'Usuário',
+      lastname: 'Padrão',
+      typeDocument: 'CPF',
+      document: '11111111111',
+      slug: 'Tecnologia',
+      mobile: '',
+      email: '',
+      password: 'senha123',
+      type: 'Technical',
+    })
+
+    return res.json({ company, defaultTeam, defaultMember })
   },
 
   async update(req: Request, res: Response): Promise<Response> {

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
-import MemberModel from '../database/MemberModel'
+import MemberModel from '../models/MemberModel'
 
 const MemberController = {
   async index(req: Request, res: Response): Promise<Response> {
-    const members = await MemberModel.find()
+    const members = await MemberModel.find().populate('team_id')
 
     return res.json(members)
   },
@@ -19,7 +19,7 @@ const MemberController = {
   async create(req: Request, res: Response): Promise<Response> {
     const { document, typeDocument } = req.body
 
-    const existingCompany = await MemberModel.findOne({ document })
+    const existingDocument = await MemberModel.findOne({ document })
 
     if (typeDocument === 'CPF' && document.length !== 11) {
       return res.status(400).json({
@@ -33,7 +33,7 @@ const MemberController = {
       })
     }
 
-    if (existingCompany) {
+    if (existingDocument) {
       return res.status(400).json({
         error: `Já existe um membro com o documento ${document}`,
       })

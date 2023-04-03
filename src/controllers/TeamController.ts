@@ -1,9 +1,10 @@
 import { Request, Response } from 'express'
-import TeamModel from '../database/TeamModel'
+import MemberModel from '../models/MemberModel'
+import TeamModel from '../models/TeamModel'
 
 const TeamController = {
   async index(req: Request, res: Response): Promise<Response> {
-    const teams = await TeamModel.find()
+    const teams = await TeamModel.find().populate('organization_id')
 
     return res.json(teams)
   },
@@ -19,9 +20,9 @@ const TeamController = {
   async create(req: Request, res: Response): Promise<Response> {
     const { title } = req.body
 
-    const existingCompany = await TeamModel.findOne({ title })
+    const existingNameTeam = await TeamModel.findOne({ title })
 
-    if (existingCompany) {
+    if (existingNameTeam) {
       return res.status(400).json({
         error: `Já existe uma equipe com o nome ${title}`,
       })
@@ -29,7 +30,20 @@ const TeamController = {
 
     const team = await TeamModel.create(req.body)
 
-    return res.json(team)
+    const defaultMember = await MemberModel.create({
+      team_id: team._id,
+      name: 'Usuário',
+      lastname: 'Padrão',
+      typeDocument: 'CPF',
+      document: '11111111111',
+      slug: 'Tecnologia',
+      mobile: '',
+      email: '',
+      password: 'senha123',
+      type: 'Technical',
+    })
+
+    return res.json({ team, defaultMember })
   },
 
   async update(req: Request, res: Response): Promise<Response> {

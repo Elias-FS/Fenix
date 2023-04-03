@@ -14,6 +14,11 @@ const StatusEnum = Object.freeze({
 
 const TeamModel = new Schema(
   {
+    organization_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company',
+      required: true,
+    },
     title: {
       type: String,
       default: 'Team',

@@ -18,6 +18,12 @@ const RoleEnum = Object.freeze({
 
 const MemberModel = new Schema(
   {
+    team_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Team',
+      required: true,
+      populate: 'teams',
+    },
     name: String,
     lastname: String,
     typeDocument: {
