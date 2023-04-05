@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import MemberModel from '../models/MemberModel'
 import TeamModel from '../models/TeamModel'
 
 const TeamController = {
@@ -18,20 +17,11 @@ const TeamController = {
   },
 
   async create(req: Request, res: Response): Promise<Response> {
-    const { title } = req.body
-
-    const existingNameTeam = await TeamModel.findOne({ title })
-
-    if (existingNameTeam) {
-      return res.status(400).json({
-        error: `Já existe uma equipe com o nome ${title}`,
-      })
-    }
-
     const team = await TeamModel.create(req.body)
 
-    const defaultMember = await MemberModel.create({
-      team_id: team._id,
+    /** Usuário Default
+    const defaultUser = await UserModel.create({
+      team_id: defaultTeam._id,
       name: 'Usuário',
       lastname: 'Padrão',
       typeDocument: 'CPF',
@@ -42,8 +32,9 @@ const TeamController = {
       password: 'senha123',
       type: 'Technical',
     })
+    */
 
-    return res.json({ team, defaultMember })
+    return res.json({ team })
   },
 
   async update(req: Request, res: Response): Promise<Response> {

@@ -1,0 +1,1293 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Fenix Documentation",
+    "description": "This is an API Fenix",
+    "version": "1.0.0",
+    "contact": {
+      "email": "elias@anu.bz"
+    }
+  },
+  "paths": {
+    "/organization": {
+      "post": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Create a organization",
+        "description": "Create a new organization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "document": {
+                    "type": "string"
+                  },
+                  "typeDocument": {
+                    "type": "string",
+                    "enum": [
+                      "CNPJ"
+                    ],
+                    "description": "Default type document is CNPJ"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ],
+                    "description": "Default status is active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "title": "Forest Watch",
+                    "document": "39317935000131",
+                    "slug": "TECNOLOGIA",
+                    "typeDocument": "CNPJ",
+                    "status": "active"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Organization with document already exists"
+          },
+          "400": {
+            "description": "Invalid document (if cpf is specified, document must be 11 numbers or if cnpj is specified, document must be 14 numbers)"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "List all organizations",
+        "description": "List all organizations",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "itens": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "document": {
+                        "type": "string"
+                      },
+                      "typeDocument": {
+                        "type": "string",
+                        "enum": [
+                          "CNPJ"
+                        ],
+                        "description": "Default type document is CNPJ"
+                      },
+                      "slug": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "active",
+                          "inactive"
+                        ],
+                        "description": "Default status is active"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "_id": "642da66788e18c067715120d",
+                    "title": "Forest Watch",
+                    "document": "39317935000131",
+                    "slug": "TECNOLOGIA",
+                    "typeDocument": "CNPJ",
+                    "status": "active",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "642da7584f0882b83128e826",
+                    "title": "Forest Watch 1",
+                    "document": "39317935000131",
+                    "slug": "TECNOLOGIA",
+                    "typeDocument": "CNPJ",
+                    "status": "active",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "642da75fa545fcc74606f9c0",
+                    "title": "Forest Watch 2",
+                    "document": "39317935000131",
+                    "slug": "TECNOLOGIA",
+                    "typeDocument": "CNPJ",
+                    "status": "active",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organization/:id": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "List a organization",
+        "description": "List a organization",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "document": {
+                      "type": "string"
+                    },
+                    "typeDocument": {
+                      "type": "string",
+                      "enum": [
+                        "CNPJ"
+                      ],
+                      "description": "Default type document is CNPJ"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "inactive"
+                      ],
+                      "description": "Default status is active"
+                    }
+                  },
+                  "example": {
+                    "_id": "642da66788e18c067715120d",
+                    "title": "Forest Watch",
+                    "document": "39317935000131",
+                    "slug": "TECNOLOGIA",
+                    "typeDocument": "CNPJ",
+                    "status": "active",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Change a organization",
+        "description": "Change a organization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "document": {
+                    "type": "string"
+                  },
+                  "typeDocument": {
+                    "type": "string",
+                    "enum": [
+                      "CNPJ"
+                    ],
+                    "description": "Default type document is CNPJ"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ],
+                    "description": "Default status is active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "title": "Forest Watch",
+                    "document": "39317935000131",
+                    "slug": "TECNOLOGIA",
+                    "typeDocument": "CNPJ",
+                    "status": "active"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Delete a organization",
+        "description": "Delete a organization",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "document": {
+                      "type": "string"
+                    },
+                    "typeDocument": {
+                      "type": "string",
+                      "enum": [
+                        "CNPJ"
+                      ],
+                      "description": "Default type document is CNPJ"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "inactive"
+                      ],
+                      "description": "Default status is active"
+                    }
+                  }
+                },
+                "example": {
+                  "_id": "642da66788e18c067715120d",
+                  "title": "Forest Watch",
+                  "document": "39317935000131",
+                  "slug": "TECNOLOGIA",
+                  "typeDocument": "CNPJ",
+                  "status": "active",
+                  "createdAt": "yyyy-mm-ddThh:mm:ss",
+                  "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                  "__v": 0
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      }
+    },
+    "/team": {
+      "post": {
+        "tags": [
+          "Team"
+        ],
+        "summary": "Create a team",
+        "description": "Create a new team",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "organization_id": {
+                    "type": "string",
+                    "description": "id of the organization that the team is linked to"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "Technical",
+                      "Manager"
+                    ],
+                    "description": "Default type team is Manager"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ],
+                    "description": "Default status is active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "organization_id": "642da66788e18c067715120d",
+                    "title": "Developers Forest Watch",
+                    "type": "Technical",
+                    "role": "Desenvolvimento",
+                    "status": "ativo"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Team"
+        ],
+        "summary": "List all teams",
+        "description": "List all teams",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "itens": {
+                    "type": "object",
+                    "properties": {
+                      "organization_id": {
+                        "type": "string",
+                        "description": "id of the organization that the team is linked to"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "Technical",
+                          "Manager"
+                        ],
+                        "description": "Default type team is Manager"
+                      },
+                      "role": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "active",
+                          "inactive"
+                        ],
+                        "description": "Default status is active"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "_id": "642db7ae14e700764a18ed1d",
+                    "organization_id": {
+                      "_id": "642da66788e18c067715120d",
+                      "title": "Forest Watch",
+                      "document": "30189482000131",
+                      "slug": "TECNOLOGIA",
+                      "typeDocument": "CNPJ",
+                      "status": "Active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "title": "default team Forest Watch",
+                    "type": "Technical",
+                    "role": "default",
+                    "status": "ativo",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "642db7e149181986632af526",
+                    "organization_id": {
+                      "_id": "642da66788e18c067715120d",
+                      "title": "Forest Watch",
+                      "document": "30189482000131",
+                      "slug": "TECNOLOGIA",
+                      "typeDocument": "CNPJ",
+                      "status": "Active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "title": "Marketing team Forest Watch",
+                    "type": "Technical",
+                    "role": "default",
+                    "status": "ativo",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "642db7e149181986632af526",
+                    "organization_id": {
+                      "_id": "642da66788e18c067715120d",
+                      "title": "Forest Watch",
+                      "document": "30189482000131",
+                      "slug": "TECNOLOGIA",
+                      "typeDocument": "CNPJ",
+                      "status": "Active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "title": "Developers team Forest Watch",
+                    "type": "Technical",
+                    "role": "default",
+                    "status": "ativo",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/team/:id": {
+      "get": {
+        "tags": [
+          "Team"
+        ],
+        "summary": "List a team",
+        "description": "List a team",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organization_id": {
+                      "type": "string",
+                      "description": "id of the organization that the team is linked to"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "Technical",
+                        "Manager"
+                      ],
+                      "description": "Default type team is Manager"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "inactive"
+                      ],
+                      "description": "Default status is active"
+                    }
+                  }
+                },
+                "example": {
+                  "_id": "642db7ae14e700764a18ed1d",
+                  "organization_id": {
+                    "_id": "642da66788e18c067715120d",
+                    "title": "Forest Watch",
+                    "document": "30189482000131",
+                    "slug": "TECNOLOGIA",
+                    "typeDocument": "CNPJ",
+                    "status": "Active",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  },
+                  "title": "default team Forest Watch",
+                  "type": "Technical",
+                  "role": "default",
+                  "status": "ativo",
+                  "createdAt": "yyyy-mm-ddThh:mm:ss",
+                  "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                  "__v": 0
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Team"
+        ],
+        "summary": "Change a team",
+        "description": "Change a team",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "organization_id": {
+                    "type": "string",
+                    "description": "id of the organization that the team is linked to"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "Technical",
+                      "Manager"
+                    ],
+                    "description": "Default type team is Manager"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ],
+                    "description": "Default status is active"
+                  }
+                },
+                "example": {
+                  "organization_id": "642da66788e18c067715120d",
+                  "title": "Marketing team Forest Watch",
+                  "type": "Technical",
+                  "role": "Desenvolvimento",
+                  "status": "ativo"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "organization_id": "642da66788e18c067715120d",
+                    "title": "Marketing team Forest Watch",
+                    "type": "Technical",
+                    "role": "Desenvolvimento",
+                    "status": "ativo"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Team"
+        ],
+        "summary": "Delete a team",
+        "description": "Delete a team",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organization_id": {
+                      "type": "string",
+                      "description": "id of the organization that the team is linked to"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "Technical",
+                        "Manager"
+                      ],
+                      "description": "Default type team is Manager"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "inactive"
+                      ],
+                      "description": "Default status is active"
+                    }
+                  }
+                },
+                "example": {
+                  "_id": "642c874117d2947a8a22ae4d",
+                  "organization_id": "642c874117d2947a8a22ae4b",
+                  "title": "default team Forest Watch",
+                  "type": "Technical",
+                  "role": "default",
+                  "status": "ativo",
+                  "createdAt": "yyyy-mm-ddThh:mm:ss",
+                  "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                  "__v": 0
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "team_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "lastname": {
+                    "type": "string"
+                  },
+                  "typeDocument": {
+                    "type": "string",
+                    "enum": [
+                      "CNPJ",
+                      "CPF"
+                    ],
+                    "description": "Default type document is CPF"
+                  },
+                  "document": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "mobile": {
+                    "type": "number"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "Technical",
+                      "Manager",
+                      "Public",
+                      "Marketing",
+                      "API"
+                    ],
+                    "description": "Default status is Technical"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "_id": "642dc2c2a38e144137254845",
+                    "team_id": {
+                      "_id": "642dc123a38e144137254831",
+                      "organization_id": "642dc123a38e14413725482f",
+                      "title": "default team Forest Watch",
+                      "type": "Technical",
+                      "role": "default",
+                      "status": "active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "name": "Name",
+                    "lastname": "Lastname",
+                    "typeDocument": "CPF",
+                    "document": "00288334060",
+                    "slug": "Developer",
+                    "mobile": "(+55)19912345678",
+                    "email": "email@hotmail.com",
+                    "password": "password123",
+                    "type": "Technical",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Organization with document already exists"
+          },
+          "400": {
+            "description": "Invalid document (if cpf is specified, document must be 11 numbers or if cnpj is specified, document must be 14 numbers)"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List all users",
+        "description": "List all users",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "itens": {
+                    "type": "object",
+                    "properties": {
+                      "team_id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "lastname": {
+                        "type": "string"
+                      },
+                      "typeDocument": {
+                        "type": "string",
+                        "enum": [
+                          "CNPJ",
+                          "CPF"
+                        ],
+                        "description": "Default type document is CPF"
+                      },
+                      "document": {
+                        "type": "string"
+                      },
+                      "slug": {
+                        "type": "string"
+                      },
+                      "mobile": {
+                        "type": "number"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "Technical",
+                          "Manager",
+                          "Public",
+                          "Marketing",
+                          "API"
+                        ],
+                        "description": "Default status is Technical"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "_id": "642dc2c2a38e144137254845",
+                    "team_id": {
+                      "_id": "642dc123a38e144137254831",
+                      "organization_id": "642dc123a38e14413725482f",
+                      "title": "default team Forest Watch",
+                      "type": "Technical",
+                      "role": "default",
+                      "status": "active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "name": "Name",
+                    "lastname": "Lastname",
+                    "typeDocument": "CPF",
+                    "document": "00288334060",
+                    "slug": "Developer",
+                    "mobile": "(+55)19912345678",
+                    "email": "email@hotmail.com",
+                    "password": "password123",
+                    "type": "Technical",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "642dc2c2a38e144137254845",
+                    "team_id": {
+                      "_id": "642dc123a38e144137254831",
+                      "organization_id": "642dc123a38e14413725482f",
+                      "title": "default team Forest Watch",
+                      "type": "Technical",
+                      "role": "default",
+                      "status": "active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "name": "Name1",
+                    "lastname": "Lastname1",
+                    "typeDocument": "CPF",
+                    "document": "00288334060",
+                    "slug": "Marketing",
+                    "mobile": "(+55)19912345678",
+                    "email": "email1@hotmail.com",
+                    "password": "password123",
+                    "type": "Technical",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "642dc2c2a38e144137254845",
+                    "team_id": {
+                      "_id": "642dc123a38e144137254831",
+                      "organization_id": "642dc123a38e14413725482f",
+                      "title": "default team Forest Watch",
+                      "type": "Technical",
+                      "role": "default",
+                      "status": "active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "name": "Name2",
+                    "lastname": "Lastname2",
+                    "typeDocument": "CPF",
+                    "document": "00288334060",
+                    "slug": "Developer",
+                    "mobile": "(+55)19912345678",
+                    "email": "email2@hotmail.com",
+                    "password": "password123",
+                    "type": "Technical",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/:id": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List a user",
+        "description": "List a user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "document": {
+                      "type": "string"
+                    },
+                    "typeDocument": {
+                      "type": "string",
+                      "enum": [
+                        "CNPJ"
+                      ],
+                      "description": "Default type document is CNPJ"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "inactive"
+                      ],
+                      "description": "Default status is active"
+                    }
+                  },
+                  "example": {
+                    "_id": "642dc2c2a38e144137254845",
+                    "team_id": {
+                      "_id": "642dc123a38e144137254831",
+                      "organization_id": "642dc123a38e14413725482f",
+                      "title": "default team Forest Watch",
+                      "type": "Technical",
+                      "role": "default",
+                      "status": "active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "name": "Name",
+                    "lastname": "Lastname",
+                    "typeDocument": "CPF",
+                    "document": "00288334060",
+                    "slug": "Developer",
+                    "mobile": "(+55)19912345678",
+                    "email": "email@hotmail.com",
+                    "password": "password123",
+                    "type": "Technical",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Change a user",
+        "description": "Change a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "team_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "lastname": {
+                    "type": "string"
+                  },
+                  "typeDocument": {
+                    "type": "string",
+                    "enum": [
+                      "CNPJ",
+                      "CPF"
+                    ],
+                    "description": "Default type document is CPF"
+                  },
+                  "document": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "mobile": {
+                    "type": "number"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "Technical",
+                      "Manager",
+                      "Public",
+                      "Marketing",
+                      "API"
+                    ],
+                    "description": "Default status is Technical"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "_id": "642dc2c2a38e144137254845",
+                    "team_id": {
+                      "_id": "642dc123a38e144137254831",
+                      "organization_id": "642dc123a38e14413725482f",
+                      "title": "default team Forest Watch",
+                      "type": "Technical",
+                      "role": "default",
+                      "status": "active",
+                      "createdAt": "yyyy-mm-ddThh:mm:ss",
+                      "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                      "__v": 0
+                    },
+                    "name": "Name",
+                    "lastname": "Lastname",
+                    "typeDocument": "CPF",
+                    "document": "00288334060",
+                    "slug": "Developer",
+                    "mobile": "(+55)19912345678",
+                    "email": "email@hotmail.com",
+                    "password": "password123",
+                    "type": "Technical",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete a user",
+        "description": "Delete a user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "team_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "lastname": {
+                      "type": "string"
+                    },
+                    "typeDocument": {
+                      "type": "string",
+                      "enum": [
+                        "CNPJ",
+                        "CPF"
+                      ],
+                      "description": "Default type document is CPF"
+                    },
+                    "document": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "mobile": {
+                      "type": "number"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "Technical",
+                        "Manager",
+                        "Public",
+                        "Marketing",
+                        "API"
+                      ],
+                      "description": "Default status is Technical"
+                    }
+                  }
+                },
+                "example": {
+                  "_id": "642dc2c2a38e144137254845",
+                  "team_id": {
+                    "_id": "642dc123a38e144137254831",
+                    "organization_id": "642dc123a38e14413725482f",
+                    "title": "default team Forest Watch",
+                    "type": "Technical",
+                    "role": "default",
+                    "status": "active",
+                    "createdAt": "yyyy-mm-ddThh:mm:ss",
+                    "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                    "__v": 0
+                  },
+                  "name": "Name",
+                  "lastname": "Lastname",
+                  "typeDocument": "CPF",
+                  "document": "00288334060",
+                  "slug": "Developer",
+                  "mobile": "(+55)19912345678",
+                  "email": "email@hotmail.com",
+                  "password": "password123",
+                  "type": "Technical",
+                  "createdAt": "yyyy-mm-ddThh:mm:ss",
+                  "updatedAt": "yyyy-mm-ddThh:mm:ss",
+                  "__v": 0
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id not found"
+          },
+          "400": {
+            "description": "id not provided or invalid"
+          }
+        }
+      }
+    }
+  }
+}
