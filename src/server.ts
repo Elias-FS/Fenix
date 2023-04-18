@@ -15,7 +15,6 @@ app.use(router)
 
 mongoose
   .connect(env.DATABASE_URL)
-
   .then((data) => {
     console.log('✅ Connection to MongoDB successful!')
   })
@@ -23,6 +22,6 @@ mongoose
     console.log('❌ Connecting with MongoDB error => ', err.message)
   })
 
-app.listen({
-  port: env.PORT,
+app.listen(env.PORT, () => {
+  console.log(`🚀 Server running on port ${env.PORT}`)
 })

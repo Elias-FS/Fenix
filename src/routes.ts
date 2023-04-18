@@ -41,5 +41,6 @@ router.get('/user/:id', checkIdExistence, UserController.findById)
 router.delete('/user/:id', checkIdExistence, UserController.delete)
 router.put('/user/:id', checkIdExistence, checkDocument, UserController.update)
 router.post('/user', checkDocument, UserController.create)
+router.post('/login', checkDocument, UserController.create)
 
 export default router
