@@ -1,83 +1,73 @@
 import { Request, Response } from 'express'
 import UserModel from '../models/UserModel'
-import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { env } from '../env'
 
-const UserController = {
-  async index(req: Request, res: Response): Promise<Response> {
-    const users = await UserModel.find().populate('team_id')
+// type JwtPayload = {
+//   userToken: String
+// }
 
-    return res.json(users)
-  },
+const UserLoginController = {
+  async login(req: Request, res: Response): Promise<Response> {
+    const { email } = req.body
 
-  async findById(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params
+    const user = await UserModel.findOne({ email })
 
-    const user = await UserModel.findById(id)
+    const token = jwt.sign(
+      {
+        name: user?.name,
+        lastname: user?.lastname,
+        status: user?.status,
+        type: user?.type,
+        userToken: user?.userToken,
+      },
+      env.JWT_PASS,
+      {
+        expiresIn: 60 * 60 * 3,
+      },
+    )
 
-    return res.json(user)
-  },
-
-  async create(req: Request, res: Response): Promise<Response> {
-    const {
-      // eslint-disable-next-line camelcase
-      team_id,
-      name,
-      lastname,
-      typeDocument,
-      document,
-      slug,
-      mobile,
-      email,
-      password,
-      type,
-    } = req.body
-
-    const hashPassword = await bcrypt.hash(password, 10)
-
-    const newUser = await UserModel.create({
-      // eslint-disable-next-line camelcase
-      team_id,
-      name,
-      lastname,
-      typeDocument,
-      document,
-      slug,
-      mobile,
-      email,
-      password: hashPassword,
-      type,
+    return res.json({
+      name: user?.name,
+      lastname: user?.lastname,
+      status: user?.status,
+      type: user?.type,
+      userToken: user?.userToken,
+      token,
     })
-
-    const userWithoutPassword = {
-      _id: newUser._id,
-      team_id: newUser.team_id,
-      name: newUser.name,
-      lastname: newUser.lastname,
-      typeDocument: newUser.typeDocument,
-      document: newUser.document,
-      slug: newUser.slug,
-      mobile: newUser.mobile,
-      email: newUser.email,
-      type: newUser.type,
-    }
-
-    return res.status(201).json(userWithoutPassword)
   },
 
-  async update(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params
+  async getProfile(req: Request, res: Response): Promise<Response> {
+    return res.json(req.user)
 
-    const user = await UserModel.findByIdAndUpdate(id, req.body)
+    // const { authorization } = req.headers
 
-    return res.json(user)
-  },
+    // if (!authorization) {
+    //   return res.status(401).json({
+    //     error: 'Not authorized',
+    //   })
+    // }
 
-  async delete(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params
-    const user = await UserModel.findByIdAndRemove(id)
+    // const token = authorization.split(' ')[1]
 
-    return res.json(user)
+    // const { userToken } = jwt.verify(token, env.JWT_PASS) as JwtPayload
+
+    // const user = await UserModel.findOne({ userToken })
+
+    // if (!user) {
+    //   return res.status(401).json({
+    //     error: 'Not authorized',
+    //   })
+    // }
+
+    // return res.json({
+    //   name: user?.name,
+    //   lastname: user?.lastname,
+    //   status: user?.status,
+    //   type: user?.type,
+    //   userToken: user?.userToken,
+    // })
   },
 }
 
-export default UserController
+export default UserLoginController

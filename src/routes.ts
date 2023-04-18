@@ -5,6 +5,9 @@ import TeamController from './controllers/TeamController'
 import checkIdExistence from './middlewares/CheckIdExistence'
 import checkDocument from './middlewares/CheckDocument'
 import checkName from './middlewares/CheckName'
+import UserLoginController from './controllers/UserLoginController'
+import checkUserExists from './middlewares/CheckUserExists'
+import authMiddleware from './middlewares/AuthMiddleware'
 
 const router = Router()
 
@@ -41,6 +44,7 @@ router.get('/user/:id', checkIdExistence, UserController.findById)
 router.delete('/user/:id', checkIdExistence, UserController.delete)
 router.put('/user/:id', checkIdExistence, checkDocument, UserController.update)
 router.post('/user', checkDocument, UserController.create)
-router.post('/login', checkDocument, UserController.create)
+router.post('/user/login', checkUserExists, UserLoginController.login)
+router.get('/profile', authMiddleware, UserLoginController.getProfile)
 
 export default router

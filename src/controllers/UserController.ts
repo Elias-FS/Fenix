@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import UserModel from '../models/UserModel'
 import bcrypt from 'bcrypt'
+import { v4 as uuidV4 } from 'uuid'
 
 const UserController = {
   async index(req: Request, res: Response): Promise<Response> {
@@ -33,6 +34,7 @@ const UserController = {
     } = req.body
 
     const hashPassword = await bcrypt.hash(password, 10)
+    const token = uuidV4()
 
     const newUser = await UserModel.create({
       // eslint-disable-next-line camelcase
@@ -45,6 +47,7 @@ const UserController = {
       mobile,
       email,
       password: hashPassword,
+      userToken: token,
       type,
     })
 
@@ -58,6 +61,7 @@ const UserController = {
       slug: newUser.slug,
       mobile: newUser.mobile,
       email: newUser.email,
+      userToken: newUser.userToken,
       type: newUser.type,
     }
 

@@ -1,5 +1,11 @@
 import mongoose, { Schema } from 'mongoose'
 
+// Definir enum para status
+const StatusEnum = Object.freeze({
+  ACTIVE: 'active',
+  INACTIVE: 'inactive',
+})
+
 // Definir enum para tipos de documentos
 const TypeDocumentEnum = Object.freeze({
   CPF: 'CPF',
@@ -36,10 +42,16 @@ const UserModel = new Schema(
     mobile: Number,
     email: String,
     password: String,
+    userToken: String,
     type: {
       type: String,
       enum: Object.values(RoleEnum),
       default: RoleEnum.TECHNICAL, // Valor padrão é 'tecnico'
+    },
+    status: {
+      type: String,
+      enum: Object.values(StatusEnum),
+      default: StatusEnum.ACTIVE, // Valor padrão é 'active'
     },
   },
   { timestamps: true },
